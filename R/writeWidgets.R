@@ -1,3 +1,15 @@
+#' Update dependency path
+#'
+#' \code{update_dep_path} updates dependency path
+#'
+#' @param dep dep
+#' @param libdir libdir
+#' @return dep
+#' @export
+#' @examples
+#' \dontrun{
+#'
+#' }
 update_dep_path <- function(dep, libdir = 'lib') {
     dir <- dep$src$file
     if (!is.null(dep$package))
@@ -16,7 +28,25 @@ update_dep_path <- function(dep, libdir = 'lib') {
 }
 # https://github.com/r-lib
 # https://github.com/r-lib/desc
+
+#' Write widget
+#'
+#' \code{write_widget} write widgets
+#'
+#' @param widget widget
+#' @param libdir libdir
+#' @param cdn cdn
+#' @param background background
+#' @param to_save to_save
+#' @param to_raw to_raw
+#' @return widget
+#' @export
+#' @examples
+#' \dontrun{
+#'
+#' }
 write_widget <- function(widget, libdir = 'lib', cdn = NULL, background = 'white', to_save = FALSE, to_raw = FALSE) {
+    #widget = dt; libdir = 'lib'; cdn = 'https://cdn.jaehyeon.me/lib'; background = 'white'; to_save = FALSE; to_raw = FALSE
     html <- htmlwidgets:::toHTML(widget, standalone = TRUE, knitrOptions = list())
 
     rendered <- htmltools::renderTags(html)

@@ -1,4 +1,4 @@
-Package: widgetAPI
+Package: serveWidgets
 Type: Package
 Title: API that serves htmlwidgets using plumber
 Version: 0.1.0
