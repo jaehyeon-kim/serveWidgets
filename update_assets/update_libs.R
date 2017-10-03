@@ -4,6 +4,11 @@ library(ggplot2)
 library(highcharter)
 library(plotly)
 library(DT)
+
+'%+%' <- function(x, y) {
+    paste(x, y, collapse = ' ')
+}
+
 generate_demos <- function(wd = '/tmp') {
     current <- getwd()
     setwd(wd)
@@ -29,9 +34,12 @@ generate_demos <- function(wd = '/tmp') {
         file.remove(file.path(wd, d))
     })
     setwd(current)
-    return(cdn_path)
+    return(paste0(cdn_path, '/'))
 }
 
-sync_bucket <- function (cdn_path, bucket = Sys.getenv('S3_BUCKET')){
-    'aws s3 sync . s3://htmlwidgets-libs'
+cdn_path <- generate_demos()
+sync_bucket <- function (cdn_path, bucket = Sys.getenv('S3_BUCKET')) {
+    bucket_url <- paste0('s3://', bucket)
+    cmd <- 'aws s3 sync' %+% cdn_path %+% bucket_url
+    system(cmd, intern = TRUE)
 }
