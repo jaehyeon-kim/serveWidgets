@@ -26,18 +26,21 @@ aws s3 sync . s3://htmlwidgets-libs-bucket
 #### CloudFront
 # https://serverless-stack.com/chapters/deploy-the-frontend.html
 ### Create Distribution
-## Origin Domain name
-# S3 - no static site hosting, just used from drop down menu
+## Origin Domain name - S3 - no static site hosting, just used from drop down menu
+## Restrict Bucket Access - No
+## Viewer Protocol Policy - Redirect HTTP to HTTPS
 ## Compress Objects Automatically - Yes
-## Default Root Object
-# no option to select
+## SSL Certificate - Custom SSL Certificate
+## Alternate Domain Names (CNAMEs) - assets.jaehyeon.me
+## Default Root Object - not set
 ## No need to select Custom Error Response
 
-### Custom Domain Name
+#### Custom Domain Name
+## Create Record Set
+# Name: assets.jaehyeon.me
+# Alias - Yes
+# Alias Target - cloud front distribution
 
+distribution-id.cloudfront.net
 
-d30svk6n09qg5i.cloudfront.net
-
-https://d30svk6n09qg5i.cloudfront.net/dt-core-1.10.12/js/jquery.dataTables.min.js
-
-http://htmlwidgets-libs.s3-website-us-east-1.amazonaws.com
+https://distribution-id.cloudfront.net/dt-core-1.10.12/js/jquery.dataTables.min.js
