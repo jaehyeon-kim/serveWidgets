@@ -20,7 +20,7 @@ generate_demos <- function(wd = '/tmp') {
     hc <- hchart(mpg, "scatter", highcharter::hcaes(x = displ, y = hwy, group = class))
     pl <- plot_ly(midwest, x = ~percollege, color = ~state, type = "box")
     dt <- datatable(iris, extensions = 'Responsive', class = 'display compact')
-    widgets <- list(hc, pl, dt)
+    widgets <- list(hc, pl, dt, dt2)
 
     lapply(1:length(widgets), function(w) {
         message('writing demo ', w, ' of ', length(widgets))
