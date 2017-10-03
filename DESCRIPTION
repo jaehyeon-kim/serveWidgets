@@ -4,8 +4,8 @@ Title: API that serves htmlwidgets using plumber
 Version: 0.1.0
 Authors@R: person("Jaehyeon", "Kim", email="dottami@gmail.com", role = c("aut", "cre"))
 Maintainer: Jaehyeon Kim <dottami@gmail.com>
-Description: This package serves htmlwidgets using plumber
-License: MIT
+Description: This package serves htmlwidgets using plumber.
+License: GPL (>= 2)
 Depends: R (>= 3.0.0)
 Imports:
     htmltools (>= 0.3),

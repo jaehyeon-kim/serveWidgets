@@ -1,0 +1,5 @@
+
+Host a Static Site on AWS, using S3 and CloudFront
+https://www.davidbaumgold.com/tutorials/host-static-site-aws-s3-cloudfront/
+
+aws s3 sync . s3://htmlwidgets-libs-bucket

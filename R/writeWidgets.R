@@ -34,29 +34,26 @@ update_dep_path <- function(dep, libdir = 'lib') {
 #' \code{write_widget} write widgets
 #'
 #' @param widget widget
-#' @param libdir libdir
 #' @param cdn cdn
+#' @param output_option option
 #' @param background background
-#' @param to_save to_save
-#' @param to_raw to_raw
 #' @return widget
 #' @export
 #' @examples
 #' \dontrun{
 #'
 #' }
-write_widget <- function(widget, libdir = 'lib', cdn = NULL, background = 'white', to_save = FALSE, to_raw = FALSE) {
-    #widget = dt; libdir = 'lib'; cdn = 'https://cdn.jaehyeon.me/lib'; background = 'white'; to_save = FALSE; to_raw = FALSE
-    html <- htmlwidgets:::toHTML(widget, standalone = TRUE, knitrOptions = list())
+write_widget <- function(widget, cdn = NULL, output_option=NULL, background = 'white') {
+    libdir <- tempdir()
 
-    rendered <- htmltools::renderTags(html)
-    deps <- rendered$dependencies
-    deps_up <- lapply(deps, update_dep_path, libdir = libdir)
-    deps_rendered <- htmltools::renderDependencies(dependencies = deps_up, srcType = c('hred', 'file'))
-    deps_updated <- if (!is.null(cdn)) {
-        gsub(libdir, cdn, deps_rendered)
+    html <- htmlwidgets:::toHTML(widget, standalone = TRUE, knitrOptions = list())
+    html_tags <- htmltools::renderTags(html)
+    deps <- lapply(html_tags$dependencies, update_dep_path, libdir = libdir)
+    deps <- htmltools::renderDependencies(dependencies = deps, srcType = c('hred', 'file'))
+    deps_up <- if (!is.null(cdn)) {
+        gsub(libdir, cdn, deps)
     } else {
-        deps_rendered
+        deps
     }
 
     html <- c(
@@ -64,24 +61,24 @@ write_widget <- function(widget, libdir = 'lib', cdn = NULL, background = 'white
         "<html>",
             "<head>",
                 "<meta charset='utf-8'/>",
-                deps_updated,
-                rendered$head,
+                deps_up,
+                html_tags$head,
             "</head>",
             sprintf("<body style='background-color:%s;'>", htmltools::htmlEscape(background)),
-            rendered$html,
+                html_tags$html,
             "</body>",
         "</html>"
     )
 
-    if (to_save) {
-        file <- tempfile()
-        writeLines(html, file, useBytes = TRUE)
-        return(file)
-    } else {
-        if (to_raw) {
-            return(charToRaw(paste(html, collapse = '')))
-        } else {
-            return(paste(html, collapse = ''))
+    output_option <- match.arg(output_option, c("html", "raw", "saved"))
+    switch(
+        output_option,
+        html = paste(html, collapse = ''),
+        raw = charToRaw(paste(html, collapse = '')),
+        saved = {
+            file <- tempfile()
+            writeLines(html, file, useBytes = TRUE)
+            file
         }
-    }
+    )
 }

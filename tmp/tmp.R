@@ -1,12 +1,14 @@
 library(htmlwidgets)
 library(DT)
 library(highcharter)
+library(plotly)
 
-libs <- file.path(getwd(), 'lib')
+libdir <- file.path(getwd(), 'lib')
+libdir <- getwd()
 selfcontained <- FALSE
 
 p <- hchart(ggplot2::mpg, "scatter", hcaes(x = displ, y = hwy, group = class))
-p$sizingPolicy$browser$padding <- 15
+p$sizingPolicy$browser$padding <- 10
 p$sizingPolicy$browser$fill <- TRUE
 #htmlwidgets::saveWidget(p, "plot.html", selfcontained, libdir)
 
@@ -19,7 +21,12 @@ dt <- datatable(iris, extensions = 'Responsive', class = 'display compact', rown
 ))
 dt$sizingPolicy$browser$padding <- 10
 dt$sizingPolicy$browser$fill <- TRUE
+#htmlwidgets::saveWidget(dt, "table.html", selfcontained, libdir)
 
+p1 <- plot_ly(midwest, x = ~percollege, color = ~state, type = "box")
+p1$sizingPolicy$browser$padding <- 10
+p1$sizingPolicy$browser$fill <- TRUE
+#htmlwidgets::saveWidget(p1, "plot1.html", selfcontained, libdir)
 
 get_plot <- function(selfcontained = selfcontained, libdir = libs) {
     p <- hchart(mpg, "scatter", hcaes(x = displ, y = hwy, group = class))

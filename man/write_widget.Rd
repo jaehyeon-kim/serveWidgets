@@ -4,21 +4,17 @@
 \alias{write_widget}
 \title{Write widget}
 \usage{
-write_widget(widget, libdir = "lib", cdn = NULL, background = "white",
-  to_save = FALSE, to_raw = FALSE)
+write_widget(widget, cdn = NULL, output_option = NULL,
+  background = "white")
 }
 \arguments{
 \item{widget}{widget}
 
-\item{libdir}{libdir}
-
 \item{cdn}{cdn}
 
+\item{output_option}{option}
+
 \item{background}{background}
-
-\item{to_save}{to_save}
-
-\item{to_raw}{to_raw}
 }
 \value{
 widget
