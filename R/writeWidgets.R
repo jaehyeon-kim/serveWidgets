@@ -44,7 +44,8 @@ update_dep_path <- function(dep, libdir = 'lib') {
 #'
 #' }
 write_widget <- function(widget, cdn = NULL, output_option=NULL, background = 'white') {
-    libdir <- tempdir()
+    libdir <- gsub('\\\\', '/', tempdir())
+    libdir <- gsub('[[:space:]]|[A-Z]:', '', libdir)
 
     html <- htmlwidgets:::toHTML(widget, standalone = TRUE, knitrOptions = list())
     html_tags <- htmltools::renderTags(html)
