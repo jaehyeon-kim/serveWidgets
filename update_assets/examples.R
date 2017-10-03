@@ -49,3 +49,11 @@ get_dt <- function(selfcontained = selfcontained, libdir = libs) {
     dt$sizingPolicy$browser$fill <- TRUE
     htmlwidgets::saveWidget(dt, "table.html", selfcontained, libdir)
 }
+
+widgets <- list(dt, p, p1)
+lapply(1:length(widgets), function(i) {
+    f <- write_widget(widgets[[i]], cdn='https://assets.jaehyeon.me', output_option = 'saved')
+    file.copy(f, file.path(getwd(), paste0('demo', i, '.html')))
+})
+
+
