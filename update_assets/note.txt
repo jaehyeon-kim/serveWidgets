@@ -45,3 +45,21 @@ distribution-id.cloudfront.net
 
 https://distribution-id.cloudfront.net/dt-core-1.10.12/js/jquery.dataTables.min.js
 https://assets.jaehyeon.me/dt-core-1.10.12/js/jquery.dataTables.min.js
+
+####
+## CRAN - rvest
+## GitHub etc - read.dcf()
+fields <- c('Package', 'Depends', 'Imports', 'LinkingTo')
+conn <- url('https://raw.githubusercontent.com/r-lib/httr/master/DESCRIPTION')
+info <- as.list(read.dcf(conn, fields = fields))
+names(info) <- fields
+close(conn)
+
+
+
+pkgs <- gsub('\n', '', info$Imports) %>%
+    strsplit(split=',') %>% unlist()
+pkgs <- lapply(pkgs, function(p) {
+    unlist(strsplit(p, ' '))[1]
+}) %>% unlist()
+
