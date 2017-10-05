@@ -7,7 +7,7 @@
 #' @export
 unpack_data <- function(x) {
     structure(
-        class = x$package,
+        class = c(x$package, x$type),
         x
     )
 }
@@ -51,5 +51,5 @@ generate_widget <- function(x, ...) {
 #' @method generate_widget default
 #' @export
 generate_widget.default <- function(x, ...) {
-    UseMethod('generate_widget')
+    stop(paste('No method for class', paste(class(x), collapse = ', ')))
 }

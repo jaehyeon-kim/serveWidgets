@@ -46,6 +46,9 @@ distribution-id.cloudfront.net
 https://distribution-id.cloudfront.net/dt-core-1.10.12/js/jquery.dataTables.min.js
 https://assets.jaehyeon.me/dt-core-1.10.12/js/jquery.dataTables.min.js
 
+# https://github.com/r-lib
+# https://github.com/r-lib/desc
+
 ####
 ## CRAN - rvest
 ## GitHub etc - read.dcf()

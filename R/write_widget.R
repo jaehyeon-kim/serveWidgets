@@ -22,8 +22,6 @@ update_dep_path <- function(dep, libdir = 'lib') {
     dep$src$file <- file.path(libdir, target)
     dep
 }
-# https://github.com/r-lib
-# https://github.com/r-lib/desc
 
 #' Write widget
 #'
