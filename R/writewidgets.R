@@ -6,10 +6,6 @@
 #' @param libdir libdir
 #' @return dep
 #' @export
-#' @examples
-#' \dontrun{
-#'
-#' }
 update_dep_path <- function(dep, libdir = 'lib') {
     dir <- dep$src$file
     if (!is.null(dep$package))
@@ -31,7 +27,7 @@ update_dep_path <- function(dep, libdir = 'lib') {
 
 #' Write widget
 #'
-#' \code{write_widget} write widgets
+#' \code{write_widget} writes a widget
 #'
 #' @param widget widget
 #' @param cdn cdn
@@ -40,14 +36,17 @@ update_dep_path <- function(dep, libdir = 'lib') {
 #' @return widget
 #' @export
 #' @examples
-#' \dontrun{
-#'
-#' }
+#' library(magrittr)
+#' dt <- list(package = 'DT', type = 'table', data = 'iris') %>%
+#'     unpack_data() %>% generate_widget(update_size = TRUE)
+#' write_widget(widget = dt, cdn = NULL, output_option = 'html')
 write_widget <- function(widget, cdn = NULL, output_option=NULL, background = 'white') {
     libdir <- gsub('\\\\', '/', tempdir())
     libdir <- gsub('[[:space:]]|[A-Z]:', '', libdir)
 
-    html <- htmlwidgets:::toHTML(widget, standalone = TRUE, knitrOptions = list())
+    # toHTML from htmlwidgets
+    toHTML <- utils::getFromNamespace(x = 'toHTML', ns = 'htmlwidgets')
+    html <- toHTML(widget, standalone = TRUE, knitrOptions = list())
     html_tags <- htmltools::renderTags(html)
     deps <- lapply(html_tags$dependencies, update_dep_path, libdir = libdir)
     deps <- htmltools::renderDependencies(dependencies = deps, srcType = c('hred', 'file'))
