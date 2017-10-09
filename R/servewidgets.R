@@ -7,7 +7,7 @@
 #' @import jsonlite
 #' @import htmlwidgets
 #' @import DT
-#' @import plotly
+#' @import highcharter
 #' @import plumber
 #' @import future
 #' @import magrittr

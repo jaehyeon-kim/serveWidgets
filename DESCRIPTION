@@ -12,7 +12,7 @@ Imports:
     jsonlite (>= 0.9.16),
     htmlwidgets (>= 0.9),
     DT (>= 0.2),
-    plotly (>= 4.7.1),
+    highcharter (>= 0.5.0),
     plumber (>= 0.4.2),
     future,
     magrittr
