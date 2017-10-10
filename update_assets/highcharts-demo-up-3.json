@@ -1,0 +1,53 @@
+{
+    "title": {
+      "text": "Solar Employment Growth by Sector, 2010-2016"
+    },
+    "subtitle": {
+        "text": "Source: thesolarfoundation.com"
+    },
+    "legend": {
+      "layout": "horizontal",
+      "align": "center",
+      "verticalAlign": "bottom"
+    },
+    "yAxis": {
+      "title": {
+        "text": "Number of Employees"
+      }
+    },
+    "xAxis": {
+    },
+    "series": [{
+        "name": "Installation",
+        "type": "line",
+        "data": [{"y": 43934, "x": 2010},{"y": 52503, "x": 2011},{"y": 57177, "x": 2012},{"y": 69658, "x": 2013},{"y": 97031, "x": 2014},{"y": 119931, "x": 2015},{"y": 137133, "x": 2016},{"y": 154175, "x": 2017}]
+    }, {
+        "name": "Manufacturing",
+        "type": "column",
+        "data": [{"y": 24916, "x": 2010, "color": "blue"},{"y": 24064, "x": 2011},{"y": 29742, "x": 2012},{"y": 29851, "x": 2013},{"y": 32490, "x": 2014},{"y": 30282, "x": 2015},{"y": 38121, "x": 2016},{"y": 40434, "x": 2017}]
+    }],
+    "credits": {
+      "enabled": false
+    },
+    "exporting": {
+      "enabled": true
+    },
+    "plotOptions": {
+      "series": {
+        "turboThreshold": 0
+      },
+      "treemap": {
+        "layoutAlgorithm": "squarified"
+      },
+      "bubble": {
+        "minSize": 5,
+        "maxSize": 25
+      }
+    },
+    "annotationsOptions": {
+      "enabledButtons": false
+    },
+    "tooltip": {
+      "delayForDisplay": 10
+    }
+}

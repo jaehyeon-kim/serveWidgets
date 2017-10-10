@@ -10,58 +10,69 @@ opts_parsed <- fromJSON(opts, simplifyVector = FALSE, simplifyDataFrame = FALSE,
 h <- highchart(opts_parsed)
 
 #highcharter:::.join_hc_opts() %>% toJSON(pretty = TRUE)
-opts1 <- fromJSON('update_assets/highcharts-demo-up.json', simplifyVector = FALSE, simplifyDataFrame = FALSE, simplifyMatrix = FALSE)
-highchart(opts1)
+opts1 <- fromJSON('update_assets/highcharts-demo-up-1.json', simplifyVector = TRUE, simplifyDataFrame = FALSE, simplifyMatrix = FALSE)
+h1 <- highchart(opts1)
+h1
 
+opts2 <- fromJSON('update_assets/highcharts-demo-up-2.json', simplifyVector = TRUE, simplifyDataFrame = FALSE, simplifyMatrix = FALSE)
+h2 <- highchart(opts2)
+h2
 
-trace1 <- '{"x":[1,2,3,4],"y":[10,15,13,17],"type":"scatter","mode":"lines"}'
-trace2 <- '{"x":[1,2,3,4],"y":[16,5,11,9],"type":"scatter","mode":"lines"}'
+opts3 <- fromJSON('update_assets/highcharts-demo-up-3.json', simplifyVector = TRUE, simplifyDataFrame = FALSE, simplifyMatrix = FALSE)
+h3 <- highchart(opts3)
+h3
 
-t1_parsed <- fromJSON(trace1, simplifyVector = FALSE, simplifyDataFrame = FALSE, simplifyMatrix = FALSE)
-t2_parsed <- fromJSON(trace2, simplifyVector = FALSE, simplifyDataFrame = FALSE, simplifyMatrix = FALSE)
-data <- data.frame(x = unlist(t1_parsed$x), y1 = unlist(t1_parsed$y), y2 = unlist(t2_parsed$y))
-
-excl_data <- function(json_parsed) {
-    json_parsed[!names(json_parsed) %in% c('x', 'y')]
+#highchart
+function (hc_opts = list(), theme = getOption("highcharter.theme"),
+          type = "chart", width = NULL, height = NULL, elementId = NULL)
+{
+    assertthat::assert_that(type %in% c("chart", "stock", "map"))
+    opts <- .join_hc_opts()
+    if (identical(hc_opts, list()))
+        hc_opts <- opts$chart
+    unfonts <- unique(c(.hc_get_fonts(hc_opts), .hc_get_fonts(theme)))
+    opts$chart <- NULL
+    x <- list(hc_opts = hc_opts, theme = theme, conf_opts = opts,
+              type = type, fonts = unfonts, debug = getOption("highcharter.debug"))
+    attr(x, "TOJSON_ARGS") <- list(pretty = getOption("highcharter.debug"))
+    htmlwidgets::createWidget(name = "highchart", x, width = width,
+                              height = height, package = "highcharter", elementId = elementId,
+                              sizingPolicy = htmlwidgets::sizingPolicy(defaultWidth = "100%",
+                                                                       knitr.figure = FALSE, knitr.defaultWidth = "100%",
+                                                                       browser.fill = TRUE))
 }
+#<bytecode: 0x5796f68>
+#<environment: namespace:highcharter>
+hc_opts <- list()
+theme <- getOption("highcharter.theme")
+type <- "chart"
 
-plot_ly(data, x = ~x) %>%
-    add_trace(y = ~y1, type='scatter') %>%
-    add_trace(y = ~y2, type='scatter')
-
-f_add_trace <- function(f, vec)
-
-plot_ly(data, x = ~x) %>%
-    add_trace(y = ~y1, type='scatter') %>%
-    add_trace(y = ~y2, type='scatter')
+opts <- highcharter:::.join_hc_opts()
+hc_opts <- opts$chart
+#toJSON(opts, pretty=TRUE, auto_unbox = TRUE)
+unfonts <- unique(c(highcharter:::.hc_get_fonts(hc_opts), highcharter:::.hc_get_fonts(theme)))
+opts$chart <- NULL
+x <- list(hc_opts = hc_opts, theme = theme, conf_opts = opts, type = type, fonts = unfonts, getOption("highcharter.debug"))
 
 
-x <- 1:10
-a <- 1:3
-
-fun <- function( x, a, b, c ) {
-    sin( x * a ) * exp( -x * b ) + x * c
+#highcharter:::.join_hc_opts
+function ()
+{
+    list(global = getOption("highcharter.global"), lang = getOption("highcharter.lang"),
+         chart = getOption("highcharter.chart"))
 }
-
-fixVector <- function( f, vec, args) {
-    do.call(f, c(list(vec), as.list(args)))
+#<environment: namespace:highcharter>
+#highcharter:::.hc_get_fonts
+function (lst)
+{
+    unls <- unlist(lst)
+    unls <- unls[grepl("fontFamily", names(unls))]
+    fonts <- unls %>% str_replace_all(",\\\\s+sans-serif|,\\\\s+serif",
+                                      "") %>% str_replace_all("\\\\s+", "+") %>% str_trim() %>%
+        unlist()
+    fonts
 }
-
-fixVector(fun, x, a)
-
-
-
-trace_0 <- rnorm(100, mean = 0)
-trace_1 <- rnorm(100, mean = 0)
-trace_2 <- rnorm(100, mean = 0)
-x <- c(1:100)
-
-data <- data.frame(x, trace_0, trace_1, trace_2)
-
-p <- plot_ly(data, x = ~x) %>%
-    add_trace(y = ~trace_0, name = 'trace 0',mode = 'lines') %>%
-    add_trace(y = ~trace_1, name = 'trace 1', mode = 'lines+markers') %>%
-    add_trace(y = ~trace_2, name = 'trace 2', mode = 'markers')
+#<environment: namespace:highcharter>
 
 
 library(leaflet)
