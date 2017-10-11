@@ -4,11 +4,13 @@
 #'
 #' @name servewidgets
 #' @import htmltools
-#' @import jsonlite
 #' @import htmlwidgets
 #' @import DT
 #' @import highcharter
+#' @import leaflet
 #' @import plumber
+#' @import R6
 #' @import future
+#' @import jsonlite
 #' @import magrittr
 NULL

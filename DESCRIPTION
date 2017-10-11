@@ -9,12 +9,14 @@ License: GPL (>= 2)
 Depends: R (>= 3.0.0)
 Imports:
     htmltools (>= 0.3.5),
-    jsonlite (>= 0.9.16),
     htmlwidgets (>= 0.9),
     DT (>= 0.2),
     highcharter (>= 0.5.0),
+    leaflet (>= 1.1.0),
     plumber (>= 0.4.2),
+    R6,
     future,
+    jsonlite,
     magrittr
 Encoding: UTF-8
 LazyData: true
