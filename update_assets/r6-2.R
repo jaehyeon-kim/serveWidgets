@@ -206,24 +206,126 @@ jk
 #### Reference semantics - S3 objects built on top of environments
 typeof(jk)
 
+# reference semantics - objects are not copied when modified
+y1 = Accumulator$new()
+y2 <- y1
 
+y1$add(10)
+c(y1 = y1$sum, y2 = y2$sum)
+#y1 y2
+#11 11
 
+# use $clone() for copying
+# use $clone(deep = TRUE) for copying nested classes
+y1 <- Accumulator$new()
+y2 <- y1$clone()
 
+y1$add(10)
+c(y1 = y1$sum, y2 = y2$sum)
 
+#### finalizer
+TemporaryFile <- R6Class(
+    'TemporaryFile',
+    public = list(
+        path = NULL,
+        initialize = function() {
+            self$path <- tempfile()
+        },
+        finalize = function() {
+            message('Cleaning up ', self$path)
+        },
+        print = function() {
+            message('Temp file ', self$path)
+        }
+    )
+)
 
+tf <- TemporaryFile$new()
+rm(tf)
+invisible(gc())
 
+#### R6 fields
+# child object is initialize once when the class is defined, not institiated
+# beaware setting a defalut value to an R6 class
+TemporaryDatabase <- R6Class(
+    'TemporaryDatabase',
+    public = list(
+        con = NULL,
+        file = TemporaryFile$new(),
+        initialize = function() {
+            #DBI::dbConnect(RSQLite::SQLite(), path = file$path)
+        }
+    )
+)
 
+db_a <- TemporaryDatabase$new()
+db_b <- TemporaryDatabase$new()
 
+db_a$file$path == db_b$file$path
 
+TemporaryDatabase1 <- R6Class(
+    'TemporaryDatabase1',
+    public = list(
+        con = NULL,
+        file = NULL,
+        initialize = function() {
+            self$file <- TemporaryFile$new()
+            #DBI::dbConnect(RSQLite::SQLite(), path = file$path)
+        }
+    )
+)
 
+db1_a <- TemporaryDatabase1$new()
+db1_b <- TemporaryDatabase1$new()
 
+db1_a$file$path == db1_b$file$path
 
+## threading state
+new_stack <- function(items = list()) {
+    structure(list(items = items, class = 'stack'))
+}
 
+push <- function(x, y) {
+    x$items <- c(x$items, list(y))
+    x
+}
 
+pop <- function(x) {
+    n <- length(x$items)
 
+    item <- x$items[[n]]
+    x$items <- x$items[[-n]]
 
+    list(item = item, x = x)
+}
 
+s <- new_stack()
+s <- push(s, 10)
+s <- push(s, 20)
 
+out <- pop(s)
+out
 
+Stack <- R6Class(
+    'Stack',
+    public = list(
+        items = list(),
+        push = function(x) {
+            self$items <- c(self$items, x)
+            invisible(self)
+        },
+        pop = function() {
+            item <- self$items[[self$length()]]
+            self$items <- self$items[-self$length()]
+            item
+        },
+        length = function() {
+            length(self$items)
+        }
+    )
+)
 
+s1 <- Stack$new()
+s1$push(10)$push(20)
+s1$pop()
 
